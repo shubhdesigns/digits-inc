@@ -1,10 +1,13 @@
-import { Suspense } from 'react'
-import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { RiShieldCheckLine, RiComputerLine, RiTeamLine, RiBrainLine } from 'react-icons/ri'
+import dynamic from 'next/dynamic'
+import FeatureCard from '@/components/FeatureCard'
 
-// Dynamically import the 3D component to avoid SSR issues
-const Scene3D = dynamic(() => import('@/components/Scene3D'), { ssr: false })
+// Create a client component wrapper for Scene3D
+const Scene3DWrapper = dynamic(
+  () => import('@/components/Scene3DWrapper'),
+  { loading: () => <div>Loading 3D Scene...</div> }
+)
 
 export default function Home() {
   return (
@@ -12,9 +15,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative h-[90vh] flex items-center justify-center bg-gradient-to-b from-blue-50 to-white">
         <div className="absolute inset-0 z-0">
-          <Suspense fallback={null}>
-            <Scene3D />
-          </Suspense>
+          <Scene3DWrapper />
         </div>
         
         <div className="container mx-auto px-4 z-10">
@@ -89,15 +90,4 @@ export default function Home() {
       </section>
     </div>
   )
-}
-
-const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
-  <motion.div
-    whileHover={{ y: -5 }}
-    className="p-6 bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow"
-  >
-    <div className="text-blue-600 mb-4">{icon}</div>
-    <h3 className="text-xl font-semibold mb-2">{title}</h3>
-    <p className="text-gray-600">{description}</p>
-  </motion.div>
-) 
+} 

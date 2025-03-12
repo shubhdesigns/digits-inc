@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { RiRobot2Fill, RiFacebookFill, RiTwitterFill, RiLinkedinFill } from 'react-icons/ri'
 
